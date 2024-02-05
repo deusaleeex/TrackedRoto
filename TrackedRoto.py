@@ -1,4 +1,5 @@
 import nuke
+import os
 
 def link_roto(tracker_node):
     
@@ -14,7 +15,8 @@ def link_roto(tracker_node):
     rot = tracker_node['r'].value()
     sca = tracker_node['s'].value()
     cen = tran or rot or sca
-    
+
+    # Checks if the link_method is live-linked or baked
     if link_method == 'live-link':
         if tran:
             i['translate'].setExpression(tracker_node.name() + ".translate")
@@ -70,8 +72,7 @@ def create_knobs():
     which.setFlag(nuke.STARTLINE)
     tracker_node.addKnob(which)
     
-    # Create Linked Roto button
-    cr = nuke.PyScript_Knob('create_roto', 'create', 'TrackedRoto.link_roto(nuke.thisNode())')
+    cr = nuke.PyScript_Knob('create_roto', 'create', 'link_roto(nuke.thisNode())')
     tracker_node.addKnob(cr)
 
 
