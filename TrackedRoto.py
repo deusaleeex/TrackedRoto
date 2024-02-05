@@ -55,6 +55,13 @@ def create_knobs():
     sca.setFlag(nuke.STARTLINE)
     tracker_node.addKnob(sca)
     
+    ref_frame = tracker_node['reference_frame']
+    tracker_node.addKnob(ref_frame)
+    
+    set_frame = nuke.PyScript_Knob('set_ref', 'set to current frame', 'nuke.thisNode()["reference_frame"].setValue(nuke.frame())')
+    set_frame.clearFlag(nuke.STARTLINE)
+    tracker_node.addKnob(set_frame)
+    
     expo = nuke.Text_Knob("<b>Export")
     expo.setFlag(nuke.STARTLINE)
     tracker_node.addKnob(expo)
@@ -64,7 +71,7 @@ def create_knobs():
     tracker_node.addKnob(which)
     
     # Create Linked Roto button
-    cr = nuke.PyScript_Knob('cr', 'create', 'TrackedRoto.link_roto(nuke.thisNode())')
+    cr = nuke.PyScript_Knob('create_roto', 'create', 'TrackedRoto.link_roto(nuke.thisNode())')
     tracker_node.addKnob(cr)
 
 
